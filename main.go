@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
@@ -27,19 +25,25 @@ func main() {
 	// raylib initial config
 	rl.SetTargetFPS(60)
 
-	fmt.Println("Window initialized")
-
 	// main game loop
 	for !rl.WindowShouldClose() {
 		// input
 
-		// game logic update
+		Update()
 
 		// physics update
 
-		// draw
-		rl.BeginDrawing()
-		// draw current frame
-		rl.EndDrawing()
+		Draw()
 	}
+}
+
+// Game logic update
+func Update() {
+}
+
+// Game drawing
+func Draw() {
+	rl.BeginDrawing()
+	// draw current frame
+	rl.EndDrawing()
 }
