@@ -5,7 +5,7 @@
 <table>
 <tr>
   <td>
-GOPANZER! is an undergoing Panzer! (github.com/saklis/Panzer) re-implementation in Go.
+GOPANZER! is an undergoing [Panzer!](https://github.com/saklis/Panzer) re-implementation in Go.
 
 Original PANZER! is made using microStudio and can be played in the browser directly through project's website!  
 https://microstudio.dev/i/Sebastian/panzer/  
