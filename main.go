@@ -21,24 +21,27 @@ const (
 var CurrentGameState GameState = GameState_Game
 
 var Game *Managers.GameManager
+var Resources *Managers.ResourceManager
 
 func main() {
 	// init game window
-	rl.InitWindow(1920, 1080, "GoPanzer")
+	rl.InitWindow(1024, 768, "GoPanzer")
 	defer rl.CloseWindow()
 
 	// raylib initial config
 	rl.SetTargetFPS(60)
 
 	// init game
+	Resources = Managers.NewResourceManager()
 	Game = Managers.NewGameManager()
 
-	//test - make a tank
-	var image rl.Texture2D = rl.LoadTexture("assets/Textures/tank.png")
+	// load resources
+	Resources.LoadAll()
 
+	//test - make a tank
 	var tank *Components.Entity = Components.NewEntity("Tank")
-	tank.AddComponent(Components.NewTransformComponent(rl.Vector2{X: 1920/2 - 128, Y: 1080/2 - 128}, 0, 1))
-	tank.AddComponent(Components.NewTankSpriteComponent(&image))
+	tank.AddComponent(Components.NewTransformComponent(rl.Vector2{X: 1024 / 2, Y: 768 / 2}, 0, 1))
+	tank.AddComponent(Components.NewTankSpriteComponent(&Resources.Images.Tank))
 	Game.Spawn(tank)
 
 	// main game loop
@@ -52,7 +55,7 @@ func main() {
 		Draw()
 	}
 
-	rl.UnloadTexture(image)
+	Resources.UnloadAll()
 }
 
 // Game logic update

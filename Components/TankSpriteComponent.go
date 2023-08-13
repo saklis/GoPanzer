@@ -32,7 +32,12 @@ func (tsc *TankSpriteComponent) Destroy() {
 func (tsc *TankSpriteComponent) Draw() {
 	var transform *TransformComponent = tsc.Owner.Transform
 
-	rl.DrawTextureEx(*tsc.Image, transform.Position, transform.Rotation, transform.Scale, rl.White)
+	// correct position to draw from center
+	var position rl.Vector2 = rl.Vector2{
+		X: transform.Position.X - float32(tsc.Image.Width/2),
+		Y: transform.Position.Y - float32(tsc.Image.Height/2),
+	}
+	rl.DrawTextureEx(*tsc.Image, position, transform.Rotation, transform.Scale, rl.White)
 }
 
 // Init implements Component.
