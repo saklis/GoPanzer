@@ -16,7 +16,7 @@ type TransformComponent struct {
 	Rotation float32
 
 	// Scale of entity.
-	Scale rl.Vector2
+	Scale float32
 
 	// Is entity moving?
 	IsMoving bool
@@ -29,8 +29,8 @@ type TransformComponent struct {
 }
 
 // Destroy implements Component.
-func (*TransformComponent) Destroy() {
-	// do nothing
+func (tc *TransformComponent) Destroy() {
+	tc.Owner = nil
 }
 
 // Draw implements Component.
@@ -57,7 +57,7 @@ func (*TransformComponent) Update(deltaTime float32) {
 // - pos: Position in the game world.
 // - rot: Rotation in degrees.
 // - scale: Scale of entity.
-func NewTransformComponent(pos rl.Vector2, rot float32, scale rl.Vector2) *TransformComponent {
+func NewTransformComponent(pos rl.Vector2, rot float32, scale float32) *TransformComponent {
 	var t TransformComponent = TransformComponent{}
 
 	t.Position = pos

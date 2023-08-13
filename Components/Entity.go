@@ -23,7 +23,7 @@ type Entity struct {
 	Name string
 
 	// Components of this entity.
-	Components [10]*Component
+	Components [10]Component
 
 	// Reference to TransformComponent.
 	// It's set in AddComponent()
@@ -53,14 +53,14 @@ func NewEntity(name string) *Entity {
 
 // Add new component to entity.
 // - newComponent: New component to add to this entity.
-func (e *Entity) AddComponent(newComponent *Component) {
+func (e *Entity) AddComponent(newComponent Component) {
 	for i := 0; i < len(e.Components); i++ {
 		if e.Components[i] == nil {
 			e.Components[i] = newComponent
-			(*newComponent).SetOwner(e)
+			newComponent.SetOwner(e)
 
 			// check if new component is a TransformComponent
-			if tc, ok := (*newComponent).(*TransformComponent); ok {
+			if tc, ok := newComponent.(*TransformComponent); ok {
 				e.Transform = tc
 			}
 
@@ -74,7 +74,7 @@ func (e *Entity) AddComponent(newComponent *Component) {
 // Get component of particular class
 // - searchedType: Type of component that needs to be found
 // returns: Pointer to component. Returns 'nil' if component is not found.
-func (e *Entity) GetComponent(searchedType reflect.Type) *Component {
+func (e *Entity) GetComponent(searchedType reflect.Type) Component {
 	for i := 0; i < len(e.Components); i++ {
 		if reflect.TypeOf(e.Components[i]) == searchedType {
 			return e.Components[i]
@@ -87,7 +87,7 @@ func (e *Entity) GetComponent(searchedType reflect.Type) *Component {
 // Initializes Entity and its Components. Called by Spawn() method in Game class
 func (e *Entity) Init() {
 	for i := 0; i < len(e.Components); i++ {
-		(*e.Components[i]).Init()
+		e.Components[i].Init()
 	}
 
 	e.Initialized = true
@@ -97,20 +97,27 @@ func (e *Entity) Init() {
 // - deltaTime: Time in seconds since last frame
 func (e *Entity) Update(deltaTime float32) {
 	for i := 0; i < len(e.Components); i++ {
-		(*e.Components[i]).Update(deltaTime)
+		if e.Components[i] != nil {
+			e.Components[i].Update(deltaTime)
+		}
 	}
 }
 
 // Draw all attached component
 func (e *Entity) Draw() {
 	for i := 0; i < len(e.Components); i++ {
-		(*e.Components[i]).Draw()
+		if e.Components[i] != nil {
+			e.Components[i].Draw()
+		}
 	}
 }
 
 // Destroy all attached component
 func (e *Entity) Destroy() {
 	for i := 0; i < len(e.Components); i++ {
-		(*e.Components[i]).Destroy()
+		if e.Components[i] != nil {
+			e.Components[i].Destroy()
+			e.Components[i] = nil
+		}
 	}
 }
