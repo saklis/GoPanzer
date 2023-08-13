@@ -43,10 +43,7 @@ jobs:
         echo "tag_name=release-$DATETIME" >> $GITHUB_ENV
 
     - name: Archive Executable and Assets into ZIP
-      run: zip -r release.zip GoPanzer.exe Assets/
-
-    - name: Debug
-      run: echo "Tag Name:${tag_name}"
+      run: zip -r GoPanzer_${{env.tag_name}}.zip GoPanzer.exe Assets/
 
     - name: Create Release
       id: create_release
@@ -64,8 +61,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release.zip
-        asset_name: release.zip
+        asset_path: ./GoPanzer_${{env.tag_name}}.zip
+        asset_name: GoPanzer_${{env.tag_name}}.zip
         asset_content_type: application/zip
       env:
         GITHUB_TOKEN: ${{ secrets.PAT }}
