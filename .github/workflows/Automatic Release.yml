@@ -23,7 +23,7 @@ jobs:
         go-version: 1.21
 
     - name: Build
-      run: | 
+      run: |
         GOOS=windows GOARCH=386 go build -v -o GoPanzer.exe ./...
 
     - name: Create Git Tag
