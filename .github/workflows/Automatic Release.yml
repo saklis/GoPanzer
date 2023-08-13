@@ -34,18 +34,18 @@ jobs:
         git tag "release-$DATETIME"
         git push https://${{ secrets.PAT }}@github.com/${{ github.repository }} "release-$DATETIME"
         echo "tag_name=release-$DATETIME" >> $GITHUB_ENV
-        
-    - name: Debug
-      run: echo "Tag Name:${tag_name}"
 
     - name: Archive Executable and Assets into ZIP
       run: zip -r release.zip GoPanzer.exe Assets/
+
+    - name: Debug
+      run: echo "Tag Name:${tag_name}"
 
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ steps.create_tag.outputs.tag_name }}
+        tag_name: ${tag_name}
         release_name: Release ${{ github.sha }}
         draft: false
         prerelease: false
