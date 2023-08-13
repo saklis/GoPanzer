@@ -24,7 +24,7 @@ jobs:
 
     - name: Build
       run: |
-        GOOS=windows GOARCH=386 go build -v -o GoPanzer.exe ./...
+        GOOS=windows GOARCH=amd64 go build -v -o GoPanzer.exe ./...
 
     - name: Create Git Tag
       id: create_tag
