@@ -2,7 +2,7 @@
 <h1>GOPANZER! alpha</h1>
 </p>
 
-[![Go Build](https://github.com/saklis/GoPanzer/actions/workflows/go_build.yml/badge.svg)](https://github.com/saklis/GoPanzer/actions/workflows/go_build.yml)
+[![Automatic Release](https://github.com/saklis/GoPanzer/actions/workflows/Automatic%20Release.yml/badge.svg)](https://github.com/saklis/GoPanzer/actions/workflows/Automatic%20Release.yml)
 
 <table>
 <tr>
