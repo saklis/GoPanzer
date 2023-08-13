@@ -45,9 +45,9 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
         draft: false
-        prerelease: false
+            prerelease: false
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT }}
 
     - name: Upload Release ZIP Archive
       id: upload-release-archive
