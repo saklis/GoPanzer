@@ -30,7 +30,32 @@ jobs:
         go get github.com/gen2brain/raylib-go/raylib
 
     - name: Build
-      run: go build -v ./...
+      run: go build -v -o GoPanzer.exe ./...
 
 #    - name: Test
 #      run: go test -v ./...
+
+    - name: Archive Executable and Assets into ZIP
+      run: zip -r GoPanzer.zip GoPanzer.exe Assets/
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Release ZIP Archive
+      id: upload-release-archive
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release.zip
+        asset_name: release.zip
+        asset_content_type: application/zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
