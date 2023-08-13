@@ -29,8 +29,9 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git tag "release-${{ github.sha }}"
-        git push origin "release-${{ github.sha }}"
+        DATETIME=$(date +'%Y-%m-%d-%H%M%S')
+        git tag "release-$DATETIME"
+        git push https://${{ secrets.PAT }}@github.com/${{ github.repository }} "release-${{ github.sha }}"
 
     - name: Archive Executable and Assets into ZIP
       run: zip -r release.zip GoPanzer.exe Assets/
