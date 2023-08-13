@@ -2,6 +2,8 @@
 <h1>GOPANZER! alpha</h1>
 </p>
 
+[![Automatic Release](https://github.com/saklis/GoPanzer/actions/workflows/Automatic%20Release.yml/badge.svg)](https://github.com/saklis/GoPanzer/actions/workflows/Automatic%20Release.yml)
+
 <table>
 <tr>
   <td>
