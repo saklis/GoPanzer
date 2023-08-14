@@ -4,18 +4,42 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+// AnimatedSprite is a struct that wraps a texture and provides a way to draw it as an animation
+// It only supports vertical animations and same-size frames with constant frame rate
 type AnimatedSprite struct {
-	Texture          *rl.Texture2D
-	CurrentFrame     int32
-	FramesCount      int32
-	TargetFPS        int32
-	FrameWidth       int32
-	FrameHeight      int32
-	_timer           float32
+	// The texture to use
+	Texture *rl.Texture2D
+
+	// The current frame of the animation
+	CurrentFrame int32
+
+	// The number of frames in the spritesheet
+	FramesCount int32
+
+	// The target FPS for the animation
+	TargetFPS int32
+
+	// The width of a frame
+	FrameWidth int32
+
+	// The height of a frame
+	FrameHeight int32
+
+	// The internal timer
+	_timer float32
+
+	// The target frame time
 	_targetFrameTime float32
-	IsPlaying        bool
+
+	// Whether the animation is playing or not
+	IsPlaying bool
 }
 
+// Creates a new AnimatedSprite
+// - texture: the texture to use, must be a vertical spritesheet
+// - framesCount: the number of frames in the spritesheet
+// - targetFPS: the target FPS for the animation
+// Returns a pointer to the new AnimatedSprite
 func NewAnimatedSprite(texture *rl.Texture2D, framesCount int32, targetFPS int32) *AnimatedSprite {
 	as := AnimatedSprite{}
 	as.Texture = texture
@@ -32,6 +56,8 @@ func NewAnimatedSprite(texture *rl.Texture2D, framesCount int32, targetFPS int32
 	return &as
 }
 
+// Updates the current animation frame
+// - deltaTime: the time elapsed since the last frame
 func (as *AnimatedSprite) Update(deltaTime float32) {
 	if as.IsPlaying {
 		as._timer += deltaTime
@@ -47,6 +73,11 @@ func (as *AnimatedSprite) Update(deltaTime float32) {
 	}
 }
 
+// Draws the current animation frame
+// - position: the position to draw the sprite at
+// - rotation: the rotation of the sprite
+// - scale: the scale of the sprite
+// - tint: the tint of the sprite
 func (as *AnimatedSprite) Draw(position rl.Vector2, rotation float32, scale float32, tint rl.Color) {
 	source := rl.Rectangle{
 		X:      float32(0),
@@ -57,15 +88,17 @@ func (as *AnimatedSprite) Draw(position rl.Vector2, rotation float32, scale floa
 
 	origin := rl.Vector2{X: 0, Y: 0}
 
+	dest := rl.Rectangle{
+		X:      position.X,
+		Y:      position.Y,
+		Width:  float32(as.FrameWidth) * scale,
+		Height: float32(as.FrameHeight) * scale,
+	}
+
 	rl.DrawTexturePro(
 		*as.Texture,
 		source,
-		rl.Rectangle{
-			X:      position.X,
-			Y:      position.Y,
-			Width:  float32(as.FrameWidth) * scale,
-			Height: float32(as.FrameHeight) * scale,
-		},
+		dest,
 		origin,
 		rotation,
 		tint,

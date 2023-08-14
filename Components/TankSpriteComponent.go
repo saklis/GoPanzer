@@ -49,7 +49,8 @@ func (tsc *TankSpriteComponent) Draw() {
 	vOffset = Structs.RotateByAngle(vOffset, transform.Rotation)
 
 	// draw tracks
-	// TODO: take movement into account
+	// TODO: uncomment when movement is implemented
+	//tsc.TrackSprite.IsPlaying = transform.IsMoving
 	tsc.TrackSprite.Draw(rl.Vector2Add(position, vOffset), transform.Rotation, transform.Scale, rl.White)
 	tsc.TrackSprite.Draw(rl.Vector2Subtract(position, vOffset), transform.Rotation, transform.Scale, rl.White)
 
