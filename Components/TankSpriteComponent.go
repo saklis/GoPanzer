@@ -2,7 +2,6 @@ package Components
 
 import (
 	"Structs"
-	"math"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -47,17 +46,12 @@ func (tsc *TankSpriteComponent) Draw() {
 	}
 
 	vOffset := rl.Vector2{X: 0, Y: tsc.TrackOffset}
-	radians := float32(math.Pi * transform.Rotation / 180.0)
-	cosTheta := float32(math.Cos(float64(radians)))
-	sinTheta := float32(math.Sin(float64(radians)))
-	rotatedX := vOffset.X*cosTheta - vOffset.Y*sinTheta
-	rotatedY := vOffset.X*sinTheta + vOffset.Y*cosTheta
-	vOffsetRotated := rl.Vector2{X: rotatedX, Y: rotatedY}
+	vOffset = Structs.RotateByAngle(vOffset, transform.Rotation)
 
 	// draw tracks
 	// TODO: take movement into account
-	tsc.TrackSprite.Draw(rl.Vector2Add(position, vOffsetRotated), transform.Rotation, transform.Scale, rl.White)
-	tsc.TrackSprite.Draw(rl.Vector2Subtract(position, vOffsetRotated), transform.Rotation, transform.Scale, rl.White)
+	tsc.TrackSprite.Draw(rl.Vector2Add(position, vOffset), transform.Rotation, transform.Scale, rl.White)
+	tsc.TrackSprite.Draw(rl.Vector2Subtract(position, vOffset), transform.Rotation, transform.Scale, rl.White)
 
 	// draw hull
 	rl.DrawTextureEx(*tsc.HullSprite, position, transform.Rotation, transform.Scale, rl.White)

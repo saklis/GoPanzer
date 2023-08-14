@@ -40,7 +40,7 @@ func main() {
 
 	//test - make a tank
 	var tank *Components.Entity = Components.NewEntity("Tank")
-	tank.AddComponent(Components.NewTransformComponent(rl.Vector2{X: 100, Y: 100}, 0, 1))
+	tank.AddComponent(Components.NewTransformComponent(rl.Vector2{X: 100, Y: 100}, 45, 1))
 	tank.AddComponent(Components.NewTankSpriteComponent(&Resources.Images.Hull_a_01, &Resources.Images.Gun_a_01, &Resources.Images.Track_01, 25))
 	Game.Spawn(tank)
 
