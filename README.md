@@ -3,6 +3,7 @@
 </p>
 
 [![Release](https://github.com/saklis/GoPanzer/actions/workflows/Release.yml/badge.svg)](https://github.com/saklis/GoPanzer/actions/workflows/Release.yml)
+[![Development](https://github.com/saklis/GoPanzer/actions/workflows/Development.yml/badge.svg)](https://github.com/saklis/GoPanzer/actions/workflows/Development.yml)
 
 <table>
 <tr>
