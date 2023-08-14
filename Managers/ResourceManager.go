@@ -9,7 +9,10 @@ type ResourceManager struct {
 }
 
 type Images struct {
-	Tank rl.Texture2D
+	Tank      rl.Texture2D
+	Gun_a_01  rl.Texture2D
+	Hull_a_01 rl.Texture2D
+	Track_01  rl.Texture2D
 }
 
 func NewResourceManager() *ResourceManager {
@@ -26,8 +29,14 @@ func (rm *ResourceManager) UnloadAll() {
 
 func (i *Images) LoadImages() {
 	i.Tank = rl.LoadTexture("assets/Textures/tank.png")
+	i.Gun_a_01 = rl.LoadTexture("assets/Textures/gun_a_01.png")
+	i.Hull_a_01 = rl.LoadTexture("assets/Textures/hull_a_01.png")
+	i.Track_01 = rl.LoadTexture("assets/Textures/track_01.png")
 }
 
 func (i *Images) UnloadImages() {
 	rl.UnloadTexture(i.Tank)
+	rl.UnloadTexture(i.Gun_a_01)
+	rl.UnloadTexture(i.Hull_a_01)
+	rl.UnloadTexture(i.Track_01)
 }

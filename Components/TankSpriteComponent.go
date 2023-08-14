@@ -1,15 +1,20 @@
 package Components
 
 import (
+	"Structs"
+	"math"
+
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 var _ Component = (*TankSpriteComponent)(nil)
 
 type TankSpriteComponent struct {
+	HullSprite  *rl.Texture2D
+	GunSprite   *rl.Texture2D
+	TrackSprite Structs.AnimatedSprite
 
-	// Image to draw.
-	Image *rl.Texture2D
+	TrackOffset float32
 
 	// Owner of this component.
 	Owner *Entity
@@ -17,9 +22,12 @@ type TankSpriteComponent struct {
 
 // Creates a new TankSpriteComponent instance.
 // Returns a pointer to the created TankSpriteComponent.
-func NewTankSpriteComponent(image *rl.Texture2D) *TankSpriteComponent {
+func NewTankSpriteComponent(hull *rl.Texture2D, gun *rl.Texture2D, track *rl.Texture2D, trackOffset float32) *TankSpriteComponent {
 	return &TankSpriteComponent{
-		Image: image,
+		HullSprite:  hull,
+		GunSprite:   gun,
+		TrackSprite: *Structs.NewAnimatedSprite(track, 2, 4),
+		TrackOffset: trackOffset,
 	}
 }
 
@@ -34,10 +42,27 @@ func (tsc *TankSpriteComponent) Draw() {
 
 	// correct position to draw from center
 	var position rl.Vector2 = rl.Vector2{
-		X: transform.Position.X - float32(tsc.Image.Width/2),
-		Y: transform.Position.Y - float32(tsc.Image.Height/2),
+		X: transform.Position.X - float32(tsc.HullSprite.Width/2),
+		Y: transform.Position.Y - float32(tsc.HullSprite.Height/2),
 	}
-	rl.DrawTextureEx(*tsc.Image, position, transform.Rotation, transform.Scale, rl.White)
+
+	vOffset := rl.Vector2{X: 0, Y: tsc.TrackOffset}
+	radians := float32(math.Pi * transform.Rotation / 180.0)
+	cosTheta := float32(math.Cos(float64(radians)))
+	sinTheta := float32(math.Sin(float64(radians)))
+	rotatedX := vOffset.X*cosTheta - vOffset.Y*sinTheta
+	rotatedY := vOffset.X*sinTheta + vOffset.Y*cosTheta
+	vOffsetRotated := rl.Vector2{X: rotatedX, Y: rotatedY}
+
+	// draw tracks
+	// TODO: take movement into account
+	tsc.TrackSprite.Draw(rl.Vector2Add(position, vOffsetRotated), transform.Rotation, transform.Scale, rl.White)
+	tsc.TrackSprite.Draw(rl.Vector2Subtract(position, vOffsetRotated), transform.Rotation, transform.Scale, rl.White)
+
+	// draw hull
+	rl.DrawTextureEx(*tsc.HullSprite, position, transform.Rotation, transform.Scale, rl.White)
+	//draw gun
+	rl.DrawTextureEx(*tsc.GunSprite, position, transform.Rotation, transform.Scale, rl.White)
 }
 
 // Init implements Component.
@@ -51,6 +76,6 @@ func (tsc *TankSpriteComponent) SetOwner(owner *Entity) {
 }
 
 // Update implements Component.
-func (*TankSpriteComponent) Update(deltaTime float32) {
-	// do nothing
+func (tsc *TankSpriteComponent) Update(deltaTime float32) {
+	tsc.TrackSprite.Update(deltaTime)
 }
