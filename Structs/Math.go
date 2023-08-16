@@ -1,4 +1,4 @@
-package Math
+package Structs
 
 import (
 	"math"

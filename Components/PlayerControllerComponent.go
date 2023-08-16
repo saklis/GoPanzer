@@ -1,7 +1,7 @@
 package Components
 
 import (
-	"main/Structs"
+	"Structs"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )

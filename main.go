@@ -1,7 +1,7 @@
 package main
 
 import (
-	"main/Managers"
+	"Managers"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )

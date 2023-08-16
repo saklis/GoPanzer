@@ -1,8 +1,8 @@
 package Managers
 
 import (
+	"Components"
 	"fmt"
-	"main/Components"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )

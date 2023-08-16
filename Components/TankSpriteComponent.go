@@ -1,8 +1,7 @@
 package Components
 
 import (
-	"main/Math"
-	"main/Structs"
+	"Structs"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -47,7 +46,7 @@ func (tsc *TankSpriteComponent) Draw() {
 	// }
 
 	vOffset := rl.Vector2{X: 0, Y: tsc.TrackOffset}
-	vOffset = Math.RotateByAngle(vOffset, transform.Rotation)
+	vOffset = Structs.RotateByAngle(vOffset, transform.Rotation)
 
 	// draw tracks
 	tsc.TrackSprite.IsPlaying = transform.IsMoving
