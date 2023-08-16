@@ -1,12 +1,13 @@
 package Components
 
 import (
-	"Structs"
+	"main/Math"
+	"main/Structs"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-var _ Component = (*TankSpriteComponent)(nil)
+var _ IComponent = (*TankSpriteComponent)(nil)
 
 type TankSpriteComponent struct {
 	HullSprite  *rl.Texture2D
@@ -40,24 +41,35 @@ func (tsc *TankSpriteComponent) Draw() {
 	var transform *TransformComponent = tsc.Owner.Transform
 
 	// correct position to draw from center
-	var position rl.Vector2 = rl.Vector2{
-		X: transform.Position.X - float32(tsc.HullSprite.Width/2),
-		Y: transform.Position.Y - float32(tsc.HullSprite.Height/2),
-	}
+	// var position rl.Vector2 = rl.Vector2{
+	// 	X: transform.Position.X, // - float32(tsc.HullSprite.Width/2),
+	// 	Y: transform.Position.Y, // - float32(tsc.HullSprite.Height/2),
+	// }
 
 	vOffset := rl.Vector2{X: 0, Y: tsc.TrackOffset}
-	vOffset = Structs.RotateByAngle(vOffset, transform.Rotation)
+	vOffset = Math.RotateByAngle(vOffset, transform.Rotation)
 
 	// draw tracks
-	// TODO: uncomment when movement is implemented
-	//tsc.TrackSprite.IsPlaying = transform.IsMoving
-	tsc.TrackSprite.Draw(rl.Vector2Add(position, vOffset), transform.Rotation, transform.Scale, rl.White)
-	tsc.TrackSprite.Draw(rl.Vector2Subtract(position, vOffset), transform.Rotation, transform.Scale, rl.White)
+	tsc.TrackSprite.IsPlaying = transform.IsMoving
+	tsc.TrackSprite.Draw(rl.Vector2Add(transform.Position, vOffset), transform.Rotation, transform.Scale, rl.White)
+	tsc.TrackSprite.Draw(rl.Vector2Subtract(transform.Position, vOffset), transform.Rotation, transform.Scale, rl.White)
 
 	// draw hull
-	rl.DrawTextureEx(*tsc.HullSprite, position, transform.Rotation, transform.Scale, rl.White)
+	rl.DrawTexturePro(
+		*tsc.HullSprite,
+		rl.Rectangle{X: 0, Y: 0, Width: float32(tsc.HullSprite.Width), Height: float32(tsc.HullSprite.Height)},
+		rl.Rectangle{X: transform.Position.X, Y: transform.Position.Y, Width: float32(tsc.HullSprite.Width), Height: float32(tsc.HullSprite.Height)},
+		rl.Vector2{X: float32(tsc.HullSprite.Width / 2), Y: float32(tsc.HullSprite.Height / 2)},
+		transform.Rotation,
+		rl.White)
 	//draw gun
-	rl.DrawTextureEx(*tsc.GunSprite, position, transform.Rotation, transform.Scale, rl.White)
+	rl.DrawTexturePro(
+		*tsc.GunSprite,
+		rl.Rectangle{X: 0, Y: 0, Width: float32(tsc.HullSprite.Width), Height: float32(tsc.HullSprite.Height)},
+		rl.Rectangle{X: transform.Position.X, Y: transform.Position.Y, Width: float32(tsc.HullSprite.Width), Height: float32(tsc.HullSprite.Height)},
+		rl.Vector2{X: float32(tsc.HullSprite.Width / 2), Y: float32(tsc.HullSprite.Height / 2)},
+		transform.Rotation,
+		rl.White)
 }
 
 // Init implements Component.

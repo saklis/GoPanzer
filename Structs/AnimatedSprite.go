@@ -86,7 +86,10 @@ func (as *AnimatedSprite) Draw(position rl.Vector2, rotation float32, scale floa
 		Height: float32(as.FrameHeight),
 	}
 
-	origin := rl.Vector2{X: 0, Y: 0}
+	origin := rl.Vector2{
+		X: float32(as.FrameWidth / 2),
+		Y: float32(as.FrameHeight / 2),
+	}
 
 	dest := rl.Rectangle{
 		X:      position.X,

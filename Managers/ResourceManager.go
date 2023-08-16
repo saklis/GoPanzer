@@ -17,12 +17,12 @@ type Images struct {
 	Track_01  rl.Texture2D
 }
 
-// Creates a new resource manager
+// Creates a new resource manager. Loads all defined resources
 func NewResourceManager() *ResourceManager {
 	return &ResourceManager{}
 }
 
-// Loads all the resources
+// Loads all resources
 func (rm *ResourceManager) LoadAll() {
 	rm.Images.LoadImages()
 }

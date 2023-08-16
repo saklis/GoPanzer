@@ -23,7 +23,7 @@ type Entity struct {
 	Name string
 
 	// Components of this entity.
-	Components [10]Component
+	Components [10]IComponent
 
 	// Reference to TransformComponent.
 	// It's set in AddComponent()
@@ -53,7 +53,7 @@ func NewEntity(name string) *Entity {
 
 // Add new component to entity.
 // - newComponent: New component to add to this entity.
-func (e *Entity) AddComponent(newComponent Component) {
+func (e *Entity) AddComponent(newComponent IComponent) {
 	for i := 0; i < len(e.Components); i++ {
 		if e.Components[i] == nil {
 			e.Components[i] = newComponent
@@ -74,7 +74,7 @@ func (e *Entity) AddComponent(newComponent Component) {
 // Get component of particular class
 // - searchedType: Type of component that needs to be found
 // returns: Pointer to component. Returns 'nil' if component is not found.
-func (e *Entity) GetComponent(searchedType reflect.Type) Component {
+func (e *Entity) GetComponent(searchedType reflect.Type) IComponent {
 	for i := 0; i < len(e.Components); i++ {
 		if reflect.TypeOf(e.Components[i]) == searchedType {
 			return e.Components[i]

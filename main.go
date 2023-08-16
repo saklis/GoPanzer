@@ -1,8 +1,7 @@
 package main
 
 import (
-	"Components"
-	"Managers"
+	"main/Managers"
 
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
@@ -20,8 +19,9 @@ const (
 
 var CurrentGameState GameState = GameState_Game
 
-var Game *Managers.GameManager
 var Resources *Managers.ResourceManager
+var Input *Managers.InputManager
+var GameWorld *Managers.GameManager
 
 func main() {
 	// init game window
@@ -31,38 +31,36 @@ func main() {
 	// raylib initial config
 	rl.SetTargetFPS(60)
 
-	// init game
+	// init managers
 	Resources = Managers.NewResourceManager()
-	Game = Managers.NewGameManager()
+	Input = Managers.NewInputManager()
+	GameWorld = Managers.NewGameManager(Resources, Input)
 
-	// load resources
+	// load all resources
 	Resources.LoadAll()
 
-	//test - make a tank
-	var tank *Components.Entity = Components.NewEntity("Tank")
-	tank.AddComponent(Components.NewTransformComponent(rl.Vector2{X: 100, Y: 100}, 45, 1))
-	tank.AddComponent(Components.NewTankSpriteComponent(&Resources.Images.Hull_a_01, &Resources.Images.Gun_a_01, &Resources.Images.Track_01, 25))
-	Game.Spawn(tank)
+	//test - make a tank for player 1
+	Input.DEBUG_AssignKeyboardToPlayer1()
+	GameWorld.DEBUG_SpawnTestPlayerEntity()
+	// end test
 
 	// main game loop
 	for !rl.WindowShouldClose() {
-		// input
+		// input update
+		Input.Update()
 
-		Update()
+		// Game logic update
+		if CurrentGameState == GameState_Game {
+			GameWorld.Update(rl.GetFrameTime())
+		}
 
-		// physics update
+		// TODO: physics update
 
+		// rendering
 		Draw()
 	}
 
 	Resources.UnloadAll()
-}
-
-// Game logic update
-func Update() {
-	if CurrentGameState == GameState_Game {
-		Game.Update(rl.GetFrameTime())
-	}
 }
 
 // Game drawing
@@ -71,7 +69,7 @@ func Draw() {
 	rl.ClearBackground(rl.Black)
 
 	if CurrentGameState == GameState_Game {
-		Game.Draw()
+		GameWorld.Draw()
 	}
 	rl.EndDrawing()
 }
