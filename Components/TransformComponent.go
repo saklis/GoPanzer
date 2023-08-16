@@ -5,7 +5,7 @@ import (
 )
 
 // type assertion
-var _ Component = (*TransformComponent)(nil)
+var _ IComponent = (*TransformComponent)(nil)
 
 // Component that stores position and rotation of entity.
 type TransformComponent struct {
@@ -34,8 +34,7 @@ func (tc *TransformComponent) Destroy() {
 }
 
 // Draw implements Component.
-func (*TransformComponent) Draw() {
-	// do nothing
+func (tc *TransformComponent) Draw() {
 }
 
 // Init implements Component.
