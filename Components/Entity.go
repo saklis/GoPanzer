@@ -6,15 +6,17 @@ import (
 	"strconv"
 )
 
-// Global counter for created entities.
+// Global counter for all entities in the game world.
 var GlobalEntityId int = 1
 
-// Increase the counter and return it's current value.
+// GetNextEntityId returns next unique entity id.
+// returns: Next unique entity id.
 func GetNextEntityId() int {
 	GlobalEntityId += 1
 	return GlobalEntityId
 }
 
+// Entity is a struct that represents a game object.
 type Entity struct {
 	// Entitie's unique identifier.
 	Id int
@@ -38,8 +40,9 @@ type Entity struct {
 	Delete bool
 }
 
-// Entity's factory - creates new Entities
-// - name: Human-readable name for this entity. It'll have unique id appended to it.
+// NewEntity creates new entity with unique id and name.
+// - name: Human-friendly name of the entity.
+// returns: Pointer to newly created entity.
 func NewEntity(name string) *Entity {
 	var e Entity = Entity{}
 
@@ -51,8 +54,8 @@ func NewEntity(name string) *Entity {
 	return &e
 }
 
-// Add new component to entity.
-// - newComponent: New component to add to this entity.
+// AddComponent adds new component to the entity.
+// - newComponent: Pointer to new component.
 func (e *Entity) AddComponent(newComponent IComponent) {
 	for i := 0; i < len(e.Components); i++ {
 		if e.Components[i] == nil {
@@ -71,9 +74,9 @@ func (e *Entity) AddComponent(newComponent IComponent) {
 	fmt.Println("ERROR: No more space to add extra component to ", e.Name, " entity!")
 }
 
-// Get component of particular class
-// - searchedType: Type of component that needs to be found
-// returns: Pointer to component. Returns 'nil' if component is not found.
+// GetComponent returns component of given type.
+// - searchedType: Type of component to search for.
+// returns: Pointer to component of given type or nil if not found.
 func (e *Entity) GetComponent(searchedType reflect.Type) IComponent {
 	for i := 0; i < len(e.Components); i++ {
 		if reflect.TypeOf(e.Components[i]) == searchedType {
@@ -84,7 +87,7 @@ func (e *Entity) GetComponent(searchedType reflect.Type) IComponent {
 	return nil
 }
 
-// Initializes Entity and its Components. Called by Spawn() method in Game class
+// Init initializes all attached component
 func (e *Entity) Init() {
 	for i := 0; i < len(e.Components); i++ {
 		e.Components[i].Init()
@@ -93,8 +96,8 @@ func (e *Entity) Init() {
 	e.Initialized = true
 }
 
-// Update all attached component
-// - deltaTime: Time in seconds since last frame
+// Update updates all attached component
+// - deltaTime: Time elapsed since last update.
 func (e *Entity) Update(deltaTime float32) {
 	for i := 0; i < len(e.Components); i++ {
 		if e.Components[i] != nil {
@@ -103,7 +106,7 @@ func (e *Entity) Update(deltaTime float32) {
 	}
 }
 
-// Draw all attached component
+// Draw draws all attached component
 func (e *Entity) Draw() {
 	for i := 0; i < len(e.Components); i++ {
 		if e.Components[i] != nil {
@@ -112,7 +115,7 @@ func (e *Entity) Draw() {
 	}
 }
 
-// Destroy all attached component
+// Destroy destroys all attached component
 func (e *Entity) Destroy() {
 	for i := 0; i < len(e.Components); i++ {
 		if e.Components[i] != nil {

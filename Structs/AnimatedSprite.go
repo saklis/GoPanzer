@@ -39,7 +39,7 @@ type AnimatedSprite struct {
 // - texture: the texture to use, must be a vertical spritesheet
 // - framesCount: the number of frames in the spritesheet
 // - targetFPS: the target FPS for the animation
-// Returns a pointer to the new AnimatedSprite
+// returns: Pointer to created AnimatedSprite.
 func NewAnimatedSprite(texture *rl.Texture2D, framesCount int32, targetFPS int32) *AnimatedSprite {
 	as := AnimatedSprite{}
 	as.Texture = texture
@@ -79,23 +79,23 @@ func (as *AnimatedSprite) Update(deltaTime float32) {
 // - scale: the scale of the sprite
 // - tint: the tint of the sprite
 func (as *AnimatedSprite) Draw(position rl.Vector2, rotation float32, scale float32, tint rl.Color) {
-	source := rl.Rectangle{
+	var source rl.Rectangle = rl.Rectangle{
 		X:      float32(0),
 		Y:      float32(as.CurrentFrame * as.FrameHeight),
 		Width:  float32(as.FrameWidth),
 		Height: float32(as.FrameHeight),
 	}
 
-	origin := rl.Vector2{
-		X: float32(as.FrameWidth / 2),
-		Y: float32(as.FrameHeight / 2),
-	}
-
-	dest := rl.Rectangle{
+	var dest rl.Rectangle = rl.Rectangle{
 		X:      position.X,
 		Y:      position.Y,
 		Width:  float32(as.FrameWidth) * scale,
 		Height: float32(as.FrameHeight) * scale,
+	}
+
+	var origin rl.Vector2 = rl.Vector2{
+		X: float32(as.FrameWidth/2) * scale,
+		Y: float32(as.FrameHeight/2) * scale,
 	}
 
 	rl.DrawTexturePro(

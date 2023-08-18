@@ -4,10 +4,10 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-// type assertion
+// Check if TransformComponent implements IComponent.
 var _ IComponent = (*TransformComponent)(nil)
 
-// Component that stores position and rotation of entity.
+// TransformComponent is a component that holds position, rotation and scale of entity.
 type TransformComponent struct {
 	// Position in the game world.
 	Position rl.Vector2
@@ -28,34 +28,37 @@ type TransformComponent struct {
 	Owner *Entity
 }
 
-// Destroy implements Component.
+// Destroy is called when component is destroyed.
 func (tc *TransformComponent) Destroy() {
 	tc.Owner = nil
 }
 
-// Draw implements Component.
+// Draw is called when component should be drawn.
 func (tc *TransformComponent) Draw() {
 }
 
-// Init implements Component.
+// Init is called when component is initialized.
 func (*TransformComponent) Init() {
 	// do nothing
 }
 
-// SetOwner implements Component.
+// SetOwner sets the owner of this component.
+// - owner: Entity that owns this component.
 func (t *TransformComponent) SetOwner(owner *Entity) {
 	t.Owner = owner
 }
 
-// Update implements Component.
+// Update is called when component should be updated.
+// - deltaTime: Time elapsed since last update.
 func (*TransformComponent) Update(deltaTime float32) {
 	// do nothing
 }
 
 // Transform component's factory - creates new TransformComponent
 // - pos: Position in the game world.
-// - rot: Rotation in degrees.
+// - rot: Rotation in degrees
 // - scale: Scale of entity.
+// returns: Pointer to newly created TransformComponent.
 func NewTransformComponent(pos rl.Vector2, rot float32, scale float32) *TransformComponent {
 	var t TransformComponent = TransformComponent{}
 

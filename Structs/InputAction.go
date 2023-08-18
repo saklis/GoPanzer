@@ -17,6 +17,7 @@ type InputAction struct {
 }
 
 // NewInputAction creates a new InputAction struct
+// returns: Pointer to created InputAction.
 func NewInputAction() *InputAction {
 	return &InputAction{Up: false, Down: false, Left: false, Right: false, Fire: false, Menu: false, UpBegin: false, DownBegin: false, LeftBegin: false, RightBegin: false, FireBegin: false, MenuBegin: false}
 }

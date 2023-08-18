@@ -6,38 +6,47 @@ import (
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
+// Check if PlayerControllerComponent implements IComponent.
 var _ IComponent = (*PlayerControllerComponent)(nil)
 
+// PlayerControllerComponent is a component that allows player to control the entity.
 type PlayerControllerComponent struct {
+	// PlayerNumber is the number of the player that controls this entity.
 	PlayerNumber int32
-	MoveSpeed    float32
 
+	// MoveSpeed is the speed at which the entity moves.
+	MoveSpeed float32
+
+	// PlayerInput is the input action that controls this entity.
 	PlayerInput *Structs.InputAction
 
+	// Owner is the entity that owns this component.
 	Owner *Entity
 }
 
-// Destroy implements IComponent.
+// Destroy is called when component is destroyed.
 func (*PlayerControllerComponent) Destroy() {
 	// do nothing
 }
 
-// Draw implements IComponent.
+// Draw is called when component should be drawn.
 func (*PlayerControllerComponent) Draw() {
 	// do nothing
 }
 
-// Init implements IComponent.
+// Init is called when component is initialized.
 func (*PlayerControllerComponent) Init() {
 	// do nothing
 }
 
-// SetOwner implements IComponent.
+// SetOwner sets the owner of this component.
+// - owner: Entity that owns this component.
 func (pcc *PlayerControllerComponent) SetOwner(owner *Entity) {
 	pcc.Owner = owner
 }
 
-// Update implements IComponent.
+// Update is called when component should be updated.
+// - deltaTime: Time elapsed since last update.
 func (pcc *PlayerControllerComponent) Update(deltaTime float32) {
 	// movement vector for this update
 	var movement rl.Vector2 = rl.NewVector2(0, 0)
@@ -78,6 +87,11 @@ func (pcc *PlayerControllerComponent) Update(deltaTime float32) {
 	}
 }
 
+// NewPlayerControllerComponent creates a new PlayerControllerComponent.
+// - playerNumber: Number of the player that controls this entity.
+// - action: Input action that controls this entity.
+// - moveSpeed: Speed at which the entity moves.
+// returns: Pointer to new PlayerControllerComponent.
 func NewPlayerControllerComponent(playerNumber int32, action *Structs.InputAction, moveSpeed float32) *PlayerControllerComponent {
 	pcc := PlayerControllerComponent{
 		PlayerNumber: playerNumber,
