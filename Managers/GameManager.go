@@ -33,7 +33,7 @@ func NewGameManager(resources *ResourceManager, input *InputManager) *GameManage
 	return &GameManager{
 		Resources: resources,
 		Input:     input,
-		Map:       NewMapManager(),
+		Map:       NewMapManager(resources),
 	}
 }
 

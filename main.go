@@ -10,11 +10,11 @@ import (
 type GameState int
 
 const (
-	GameState_InputSelect GameState = iota
-	GameState_MainMenu
-	GameState_Game
-	GameState_Intermission
-	GameState_Pause
+	GameState_InputSelect  GameState = 0
+	GameState_MainMenu     GameState = 1
+	GameState_Game         GameState = 2
+	GameState_Intermission GameState = 3
+	GameState_Pause        GameState = 4
 )
 
 // CurrentGameState is the current state of the game
@@ -50,7 +50,7 @@ func main() {
 	// init game world
 	GameWorld.Init()
 
-	//test - make a tank for player 1
+	//TEST - make a tank for player 1
 	Input.DEBUG_AssignKeyboardToPlayer1()
 	GameWorld.DEBUG_SpawnTestPlayerEntity()
 	// end test
@@ -65,7 +65,7 @@ func main() {
 			GameWorld.Update(rl.GetFrameTime())
 		}
 
-		// TODO: physics update
+		// physics update
 
 		// rendering
 		Draw()

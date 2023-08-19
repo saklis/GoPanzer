@@ -6,8 +6,12 @@ import (
 
 // ResourceManager is a struct that holds all the resources
 type ResourceManager struct {
+	// Images holds all the images
 	Images Images
-	Maps   Maps
+	// Maps holds all the maps
+	Maps Maps
+	// TileSets holds all the tilesets
+	TileSets TileSets
 }
 
 // Images is a struct that holds all the images. For internal use (has no factory)
@@ -23,6 +27,11 @@ type Maps struct {
 	Level01 string
 }
 
+// TileSets is a struct that holds all the tilesets. For internal use (has no factory)
+type TileSets struct {
+	Assets rl.Texture2D
+}
+
 // NewResourceManager creates a new ResourceManager
 // returns: Pointer to created ResourceManager.
 func NewResourceManager() *ResourceManager {
@@ -33,6 +42,7 @@ func NewResourceManager() *ResourceManager {
 func (rm *ResourceManager) LoadAll() {
 	rm.Images.LoadImages()
 	rm.Maps.LoadMaps()
+	rm.TileSets.LoadTileSets()
 }
 
 // UnloadAll unloads all the resources
@@ -59,4 +69,14 @@ func (i *Images) UnloadImages() {
 // LoadMaps loads all the maps
 func (m *Maps) LoadMaps() {
 	m.Level01 = "Assets/Maps/level01.ldtk"
+}
+
+// LoadTileSets loads all the tilesets
+func (t *TileSets) LoadTileSets() {
+	t.Assets = rl.LoadTexture("Assets/Tiles/assets.png")
+}
+
+// UnloadTileSets unloads all the tilesets
+func (t *TileSets) UnloadTileSets() {
+	rl.UnloadTexture(t.Assets)
 }
