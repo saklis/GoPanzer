@@ -1,7 +1,7 @@
 package Components
 
-// Base interface of Components
-// Represents component that can be added to Entity
+// IComponent is an interface for all components.
+// All components must implement this interface.
 type IComponent interface {
 	Init()
 	Update(deltaTime float32)

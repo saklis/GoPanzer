@@ -9,20 +9,21 @@ import (
 // InputManager is the manager that handles all input from the user
 // It reacts to raw device input and set actions in an object assigned to device.
 type InputManager struct {
-	// flag marking, that controls are locked for specific player
+	// Flag marking, that controls are locked for specific player.
 	ControlsLocked bool
 
-	// Reference to InputAction assigned to specific player
+	// Reference to InputAction assigned to specific player.
 	Player1 *Structs.InputAction
 	Player2 *Structs.InputAction
 
-	// Reference to InputAction assigned to specific device
+	// Reference to InputAction assigned to specific device.
 	Keyboard *Structs.InputAction
 	Gamepad  *Structs.InputAction
 	Touch    *Structs.InputAction
 }
 
-// NewInputManager creates new InputManager
+// NewInputManager creates a new InputManager
+// returns: Pointer to created InputManager.
 func NewInputManager() *InputManager {
 	return &InputManager{
 		Keyboard: &Structs.InputAction{},
@@ -31,7 +32,7 @@ func NewInputManager() *InputManager {
 	}
 }
 
-// Update is the main update loop for InputManager
+// Update updates input manager
 func (im *InputManager) Update() {
 	if im.Keyboard != nil {
 		im.UpdateKeyboard()
