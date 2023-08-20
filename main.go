@@ -71,8 +71,14 @@ func main() {
 		Draw()
 	}
 
-	Resources.UnloadAll()
+	// unload render target
 	rl.UnloadRenderTexture(RenderTarget)
+
+	// unload game world
+	GameWorld.Destroy()
+
+	// unload all resources
+	Resources.UnloadAll()
 }
 
 // Game drawing

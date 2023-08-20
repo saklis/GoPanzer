@@ -90,7 +90,9 @@ func (e *Entity) GetComponent(searchedType reflect.Type) IComponent {
 // Init initializes all attached component
 func (e *Entity) Init() {
 	for i := 0; i < len(e.Components); i++ {
-		e.Components[i].Init()
+		if e.Components[i] != nil {
+			e.Components[i].Init()
+		}
 	}
 
 	e.Initialized = true

@@ -2,6 +2,7 @@ package Managers
 
 import (
 	"Components"
+	"Structs"
 	"encoding/json"
 	"os"
 
@@ -15,14 +16,18 @@ type MapManager struct {
 
 	// Resources is a pointer to the ResourceManager
 	Resources *ResourceManager
+
+	// Physics is a pointer to the PhysicManager
+	Physics *PhysicManager
 }
 
 // NewMapManager creates a new MapManager
 // - resources: Pointer to ResourceManager.
 // Returns a pointer to the new MapManager
-func NewMapManager(resources *ResourceManager) *MapManager {
+func NewMapManager(resources *ResourceManager, physics *PhysicManager) *MapManager {
 	var mm MapManager = MapManager{
 		Resources: resources,
+		Physics:   physics,
 	}
 
 	return &mm
@@ -76,6 +81,10 @@ func (mm *MapManager) AddObstacleEntities(mapFile string) {
 							&mm.Resources.TileSets.Assets,
 							rl.NewRectangle(tile.Src[0], tile.Src[1], gridSize, gridSize),
 							rl.NewVector2(gridSize, gridSize),
+						))
+						obstacleEntity.AddComponent(Components.NewCollisionComponent(
+							Structs.COLLISIONTYPE_WALL,
+							mm.Physics.AddNewBody(rl.Vector2{X: 200, Y: 200}, rl.Vector2{X: 64, Y: 64}, Structs.COLLISIONTYPE_WALL),
 						))
 						mm.Entities[mm.GetFreeEntityIndex()] = obstacleEntity
 					}
